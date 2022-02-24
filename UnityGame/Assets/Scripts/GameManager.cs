@@ -6,19 +6,29 @@ public class GameManager : MonoBehaviour
 {
     public bool spawnSwitch = false;
     public GameObject butterflyPrefab;
-    public Transform spawnPos;
+    public Transform[] spawnPoints;
 
     void Update()
     {
+        GameObject[] butterflies = GameObject.FindGameObjectsWithTag("Butterfly");
+
+
+        if (butterflies.Length <= 0)
+        {
+            SpawnButterfly();
+        }
+        
         if (spawnSwitch == true)
         {
             SpawnButterfly();
             spawnSwitch = false;
-        }  
+        }
+        
     }
 
-    void SpawnButterfly()
+    public void SpawnButterfly()
     {
-        Instantiate(butterflyPrefab, spawnPos.position, Quaternion.identity);
+        int randomPoint = Random.Range(0, spawnPoints.Length);
+        Instantiate(butterflyPrefab, spawnPoints[randomPoint].position, Quaternion.identity);
     }
 }

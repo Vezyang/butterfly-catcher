@@ -4,15 +4,24 @@ using UnityEngine;
 
 public class ButterflyController : MonoBehaviour
 {
-    public float moveSpeed = 5f;
-    public Transform movePoint;
+    [Range(1, 10)]
+    [Header("Butterfly settings:")]
+    public float moveSpeed = 3f;
     public Transform butterflyObject;
+    [Header("Move Settings:")]
+    public Transform movePoint;
     public int minMove = -4;
     public int maxMove = 4;
 
     void Update()
     {
         RandomMove();
+    }
+
+    public void CatchButterfly()
+    {
+        Debug.Log($"Caught: {gameObject.name}");
+        Destroy(gameObject);
     }
 
     void RandomMove()
