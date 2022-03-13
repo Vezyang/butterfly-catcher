@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public float score = 0f;
     public bool spawnSwitch = false;
     public GameObject butterflyPrefab;
     public Transform[] spawnPoints;
@@ -15,20 +16,29 @@ public class GameManager : MonoBehaviour
 
         if (butterflies.Length <= 0)
         {
-            SpawnButterfly();
+            SpawnButterfly(Random.Range(1, 4));
         }
         
         if (spawnSwitch == true)
         {
-            SpawnButterfly();
+            SpawnButterfly(1);
             spawnSwitch = false;
         }
         
     }
 
-    public void SpawnButterfly()
+    public void SpawnButterfly(int number)
     {
-        int randomPoint = Random.Range(0, spawnPoints.Length);
-        Instantiate(butterflyPrefab, spawnPoints[randomPoint].position, Quaternion.identity);
+        for (int i = 0; i < number; i++)
+        {
+            int randomPoint = Random.Range(0, spawnPoints.Length);
+            Instantiate(butterflyPrefab, spawnPoints[randomPoint].position, Quaternion.identity);
+        }
+        Debug.Log($"Spawned: {number} \"{butterflyPrefab.name}\"");
+    }
+
+    public void AddToScore(int num)
+    {
+        score += num;
     }
 }

@@ -579,8 +579,8 @@ GameObject:
   - component: {fileID: 1941802390}
   - component: {fileID: 1941802389}
   m_Layer: 0
-  m_Name: GameManager
-  m_TagString: Untagged
+  m_Name: Game Manager
+  m_TagString: GameManager
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -597,8 +597,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1edc102284030044eaeaca63d9b9a9eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  score: 0
   spawnSwitch: 0
-  butterflyPrefab: {fileID: 5799391814186633373, guid: e1e10efa64404d14a91835440933b4f2, type: 3}
+  butterflyPrefab: {fileID: 697671073954639408, guid: e1e10efa64404d14a91835440933b4f2, type: 3}
   spawnPoints:
   - {fileID: 2015343716}
   - {fileID: 839996834}
