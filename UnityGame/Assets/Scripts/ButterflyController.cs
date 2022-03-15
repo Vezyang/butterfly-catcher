@@ -9,9 +9,6 @@ public class ButterflyController : MonoBehaviour
     [Header("Butterfly settings:")]
     [Range(1, 10)] public float moveSpeed = 3f;
     
-    [Header("Move settings:")]
-    public int minMove = -4;
-    public int maxMove = 4;
     private Vector3 movePoint = new Vector3(0, 1, 0);
 
     private void Start()
@@ -22,7 +19,7 @@ public class ButterflyController : MonoBehaviour
         }
         catch
         {
-            Debug.LogError("GameManager not found!");
+            Debug.LogError("GameManager not found.");
         }
 
         NewMovePoint();
@@ -58,6 +55,6 @@ public class ButterflyController : MonoBehaviour
 
     void NewMovePoint()
     {
-        movePoint = new Vector3(Random.Range(minMove, maxMove), movePoint.y, Random.Range(minMove, maxMove));
+        movePoint = new Vector3(Random.Range(gameManager.moveButterfliesZ, -gameManager.moveButterfliesZ), 1, Random.Range(gameManager.moveButterfliesX, -gameManager.moveButterfliesX));
     }
 }
