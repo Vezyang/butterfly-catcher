@@ -9,7 +9,7 @@ public class ButterflyController : MonoBehaviour
     [Header("Butterfly settings:")]
     [Range(1, 10)] public float moveSpeed = 3f;
     
-    private Vector3 movePoint = new Vector3(0, 1, 0);
+    private Vector3 movePoint;
 
     private void Start()
     {
@@ -55,6 +55,8 @@ public class ButterflyController : MonoBehaviour
 
     void NewMovePoint()
     {
-        movePoint = new Vector3(Random.Range(gameManager.moveButterfliesZ, -gameManager.moveButterfliesZ), 1, Random.Range(gameManager.moveButterfliesX, -gameManager.moveButterfliesX));
+        Vector3 nowMovePoint = movePoint;
+
+        movePoint = new Vector3(Mathf.Abs(Random.Range(gameManager.moveButterfliesX, -gameManager.moveButterfliesX)), 1, Random.Range(gameManager.moveButterfliesZ, -gameManager.moveButterfliesZ));
     }
 }

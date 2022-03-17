@@ -7,21 +7,37 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     [Header("Interfaces:")]
+    public GameObject[] allPanels = new GameObject[1];
     public GameManager gameManager;
     public GameObject mainMenuUI;
     public GameObject pauseMenuUI;
     public GameObject gameUI;
+    public GameObject galleryUI;
 
-    void Update()
+    private void FixedUpdate()
     {
         gameUI.GetComponentInChildren<Text>().text = $"Score: {gameManager.score}";
     }
 
+    public void CloseAllPanels()
+    {
+        for (int i = 0; i < allPanels.Length; i++)
+        {
+            allPanels[i].SetActive(false);
+        }
+    }
+
     public void PlayGame()
     {
-        mainMenuUI.SetActive(false);
+        CloseAllPanels();
         gameUI.SetActive(true);
 
+    }
+
+    public void OpenGallery()
+    {
+        CloseAllPanels();
+        galleryUI.SetActive(true);
     }
 
     public void QuitGame()
@@ -44,6 +60,13 @@ public class UIManager : MonoBehaviour
     }
 
     public void BackToMenu()
+    {
+        Time.timeScale = 1f;
+        CloseAllPanels();
+        mainMenuUI.SetActive(true);
+    }
+
+    public void BackToMenuRestart()
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene("SampleScene");

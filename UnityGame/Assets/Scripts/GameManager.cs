@@ -18,16 +18,16 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        Vector3 min = Camera.main.ViewportToWorldPoint(new Vector3(0f, 1f, Camera.main.nearClipPlane));
-        Vector3 max = Camera.main.ViewportToWorldPoint(new Vector3(1f, 0f, Camera.main.nearClipPlane));
+        Vector3 tLEdge = Camera.main.ViewportToWorldPoint(new Vector3(0f, 1f, Camera.main.nearClipPlane));
+        Vector3 rBEdge = Camera.main.ViewportToWorldPoint(new Vector3(1f, 0f, Camera.main.nearClipPlane));
 
-        spawnPoints[0].position = new Vector3(min.x, 1, min.z);
-        spawnPoints[1].position = new Vector3(max.x, 1, min.z);
-        spawnPoints[2].position = new Vector3(min.x, 1, max.z);
-        spawnPoints[3].position = new Vector3(max.x, 1, max.z);
+        spawnPoints[0].position = new Vector3(tLEdge.x, 1, tLEdge.z);
+        spawnPoints[1].position = new Vector3(rBEdge.x, 1, tLEdge.z);
+        spawnPoints[2].position = new Vector3(tLEdge.x, 1, rBEdge.z);
+        spawnPoints[3].position = new Vector3(rBEdge.x, 1, rBEdge.z);
 
-        moveButterfliesZ = min.x;
-        moveButterfliesX = max.z;
+        moveButterfliesX = tLEdge.x;
+        moveButterfliesZ = rBEdge.z;
 
     }
 
