@@ -2656,6 +2656,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   score: 0
+  gameIsPaused: 0
   butterflyPrefabs:
   - {fileID: 697671073954639408, guid: e1e10efa64404d14a91835440933b4f2, type: 3}
   moveButterfliesX: 0
@@ -2665,7 +2666,6 @@ MonoBehaviour:
   - {fileID: 839996834}
   - {fileID: 1367229553}
   - {fileID: 243817300}
-  gameIsPaused: 0
 --- !u!4 &1941802390
 Transform:
   m_ObjectHideFlags: 0
