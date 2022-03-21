@@ -7,14 +7,13 @@ public class GameManager : MonoBehaviour
 {
     [Header("Game:")]
     public float score = 0f;
+    public bool gameIsPaused = false;
     [Header("Butterfly settings:")]
     public GameObject[] butterflyPrefabs = new GameObject[1];
     public float moveButterfliesX;
     public float moveButterfliesZ;
     [Header("Spawn settings:")]
     public Transform[] spawnPoints = new Transform[1];
-    [Header("Pause game:")]
-    public bool gameIsPaused = false;
 
     void Start()
     {

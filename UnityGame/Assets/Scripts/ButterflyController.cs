@@ -8,7 +8,8 @@ public class ButterflyController : MonoBehaviour
 
     [Header("Butterfly settings:")]
     [Range(1, 10)] public float moveSpeed = 3f;
-    
+    [Range(1, 10)] public float rotationalSpeed = 1.5f;
+
     private Vector3 movePoint;
 
     private void Start()
@@ -21,11 +22,10 @@ public class ButterflyController : MonoBehaviour
         {
             Debug.LogError("GameManager not found.");
         }
-
-        NewMovePoint();
+        NewMovePoint(gameManager.moveButterfliesX, gameManager.moveButterfliesZ);
     }
 
-    void Update()
+    private void FixedUpdate()
     {
         RandomMove();
     }
@@ -39,24 +39,21 @@ public class ButterflyController : MonoBehaviour
 
     void RandomMove()
     {
-        if (Vector3.Distance(transform.position, movePoint) < 0.2f)
+        if (Vector3.Distance(transform.position, movePoint) < 1f)
         {
-            NewMovePoint();
+            NewMovePoint(gameManager.moveButterfliesX, gameManager.moveButterfliesZ);
         }
         else
         {
             Vector3 direction = movePoint - transform.position;
             Quaternion rotation = Quaternion.LookRotation(direction);
-            transform.rotation = Quaternion.Lerp(transform.rotation, rotation, moveSpeed * Time.deltaTime);
-
-            transform.position = Vector3.MoveTowards(transform.position, movePoint, moveSpeed * Time.deltaTime);
+            transform.rotation = Quaternion.Slerp(transform.rotation, rotation, rotationalSpeed * Time.deltaTime);
+            transform.position += transform.forward * moveSpeed * Time.deltaTime;
         }
     }
-
-    void NewMovePoint()
+    
+    void NewMovePoint(float moveX, float moveZ)
     {
-        Vector3 nowMovePoint = movePoint;
-
-        movePoint = new Vector3(Mathf.Abs(Random.Range(gameManager.moveButterfliesX, -gameManager.moveButterfliesX)), 1, Random.Range(gameManager.moveButterfliesZ, -gameManager.moveButterfliesZ));
+        movePoint = new Vector3(Random.Range(moveX, -moveX), 1, Random.Range(moveZ, -moveZ));
     }
 }
