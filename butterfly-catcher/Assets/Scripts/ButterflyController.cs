@@ -39,7 +39,7 @@ public class ButterflyController : MonoBehaviour
 
     void RandomMove()
     {
-        if (Vector3.Distance(transform.position, movePoint) < 1f)
+        if (Vector3.Distance(transform.position, movePoint) < 2f)
         {
             NewMovePoint(gameManager.moveButterfliesX, gameManager.moveButterfliesZ);
         }
