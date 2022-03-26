@@ -7,13 +7,13 @@ public class GameManager : MonoBehaviour
 {
     [Header("Game:")]
     public float score = 0f;
-    public bool gameIsPaused = false;
+    public Text scoreText;
     [Header("Butterfly settings:")]
-    public GameObject[] butterflyPrefabs = new GameObject[1];
+    public GameObject[] butterflyPrefabs;
     public float moveButterfliesX;
     public float moveButterfliesZ;
     [Header("Spawn settings:")]
-    public Transform[] spawnPoints = new Transform[1];
+    public Transform[] spawnPoints;
 
     private float spawnRate = 3f;
     private float nextSpawn;
@@ -30,38 +30,44 @@ public class GameManager : MonoBehaviour
 
         moveButterfliesX = tLEdge.x;
         moveButterfliesZ = rBEdge.z;
-
+        Debug.Log(nextSpawn);
     }
 
     void Update()
     {
+        scoreText.text = $"Score: {score}";
         GameObject[] butterflies = GameObject.FindGameObjectsWithTag("Butterfly");
-        if (butterflies.Length <= 2f)
+        if (butterflies.Length < 4f)
         {
-            SpawnButterfly(Random.Range(1, 4), butterflyPrefabs[Random.Range(0, butterflyPrefabs.Length)]);
+            SpawnButterfly(Random.Range(1, 5), butterflyPrefabs[Random.Range(0, butterflyPrefabs.Length)]);
         }
-        else if(Time.time > nextSpawn && butterflies.Length < 5f)
+        else if(Time.time > nextSpawn && butterflies.Length <= 5f)
         {
             RandomSpawnButterfly(3);
         }
-
     }
 
     public void SpawnButterfly(int number, GameObject butterfly)
     {
-        int spawnNum = Random.Range(0, spawnPoints.Length);
+        int[] rs = new int[spawnPoints.Length];
+
+        for (int i = 0; i < rs.Length; i++)
+        {
+            rs[i] = i;
+        }
+        
+        for (int i = rs.Length - 1; i >= 0; i--)
+        {
+            int tmp = rs[i];
+            int rand = Random.Range(0, i + 1);
+            rs[i] = rs[rand];
+            rs[rand] = tmp;
+        }
+        
         for (int i = 0; i < number; i++)
         {
-            while (true)
-            {
-                int randomPoint = Random.Range(0, spawnPoints.Length);
-                if (randomPoint != spawnNum)
-                {
-                    spawnNum = randomPoint;
-                    Instantiate(butterfly, spawnPoints[randomPoint].position, Quaternion.identity);
-                    break;
-                }
-            }
+            Instantiate(butterfly, spawnPoints[rs[i]].position, Quaternion.identity);
+            Debug.Log($"SPAWN: {rs[i]}");
         }
         Debug.Log($"Spawned: {number} \"{butterfly.name}\"");
     }

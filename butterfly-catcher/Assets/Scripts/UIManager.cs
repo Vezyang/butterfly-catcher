@@ -6,38 +6,70 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    [Header("Interfaces:")]
-    public GameObject[] allPanels = new GameObject[1];
+    [System.Serializable]
+    public class UIElements
+    {
+        public string name;
+        public GameObject element;
+    }
+
     public GameManager gameManager;
-    public GameObject mainMenuUI;
-    public GameObject pauseMenuUI;
-    public GameObject gameUI;
-    public GameObject galleryUI;
+    [Header("Background:")]
+    public GameObject background;
+    [Header("Interfaces:")]
+    public UIElements[] allPanels;
+
+    private void Start()
+    {
+        var heing = Camera.main.orthographicSize * 2f;
+        var width = heing * Screen.width / Screen.height;
+        background.transform.localScale = new Vector3(width, heing, 0);
+    }
 
     private void FixedUpdate()
     {
-        gameUI.GetComponentInChildren<Text>().text = $"Score: {gameManager.score}";
+        // gameUI.GetComponentInChildren<Text>().text = $"Score: {gameManager.score}";
     }
 
-    public void CloseAllPanels()
+    private void CloseAllPanels()
     {
         for (int i = 0; i < allPanels.Length; i++)
         {
-            allPanels[i].SetActive(false);
+            allPanels[i].element.SetActive(false);
         }
     }
 
-    public void PlayGame()
+    public void OpenElement(string name)
     {
-        CloseAllPanels();
-        gameUI.SetActive(true);
-
+        for (int i = 0; i < allPanels.Length; i++)
+        {
+            if (allPanels[i].name == name)
+            {
+                allPanels[i].element.SetActive(true);
+                return;
+            }
+        }
+        Debug.LogError($"Element \"{name}\" not found.");
     }
 
-    public void OpenGallery()
+    public void OpenElementWithPause(string name)
     {
         CloseAllPanels();
-        galleryUI.SetActive(true);
+        OpenElement(name);
+        Time.timeScale = 0f;
+    }
+
+    public void OpenElementWithResume(string name)
+    {
+        CloseAllPanels();
+        OpenElement(name);
+        Time.timeScale = 1f;
+    }
+
+    public void OpenScene(string sceneName)
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(sceneName);
     }
 
     public void QuitGame()
@@ -45,30 +77,5 @@ public class UIManager : MonoBehaviour
         Application.Quit();
     }
 
-    public void Pause()
-    {
-        pauseMenuUI.SetActive(true);
-        gameManager.gameIsPaused = true;
-        Time.timeScale = 0f;
-    }
-
-    public void Resume()
-    {
-        pauseMenuUI.SetActive(false);
-        gameManager.gameIsPaused = false;
-        Time.timeScale = 1f;
-    }
-
-    public void BackToMenu()
-    {
-        Time.timeScale = 1f;
-        CloseAllPanels();
-        mainMenuUI.SetActive(true);
-    }
-
-    public void BackToMenuRestart()
-    {
-        Time.timeScale = 1f;
-        SceneManager.LoadScene("SampleScene");
-    }
+    
 }
