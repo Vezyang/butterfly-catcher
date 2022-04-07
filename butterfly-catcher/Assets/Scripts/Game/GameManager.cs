@@ -30,12 +30,21 @@ public class GameManager : MonoBehaviour
 
         moveButterfliesX = tLEdge.x;
         moveButterfliesZ = rBEdge.z;
-        Debug.Log(nextSpawn);
+
+        
+
+        //if (Data.butterfliesCaught.Count < butterflyPrefabs.Length)
+        //{
+        //    for (int i = Data.butterfliesCaught.Count; i < butterflyPrefabs.Length; i++)
+        //    {
+        //        Data.butterfliesCaught.Add(new Data.Butterflies());
+        //        Data.butterfliesCaught[i].AddButterfly(butterflyPrefabs[i].name, 0);
+        //    }
+        //}
     }
 
     void Update()
     {
-        scoreText.text = $"Score: {score}";
         GameObject[] butterflies = GameObject.FindGameObjectsWithTag("Butterfly");
         if (butterflies.Length < 4f)
         {
@@ -66,8 +75,8 @@ public class GameManager : MonoBehaviour
         
         for (int i = 0; i < number; i++)
         {
-            Instantiate(butterfly, spawnPoints[rs[i]].position, Quaternion.identity);
-            Debug.Log($"SPAWN: {rs[i]}");
+            GameObject obj = Instantiate(butterfly, spawnPoints[rs[i]].position, Quaternion.identity);
+            obj.name = butterfly.name.Replace("(Clone)", "");
         }
         Debug.Log($"Spawned: {number} \"{butterfly.name}\"");
     }
@@ -82,5 +91,6 @@ public class GameManager : MonoBehaviour
     public void AddToScore(int num)
     {
         score += num;
+        scoreText.text = $"Score: {score}";
     }
 }

@@ -13,7 +13,6 @@ public class UIManager : MonoBehaviour
         public GameObject element;
     }
 
-    public GameManager gameManager;
     [Header("Background:")]
     public GameObject background;
     [Header("Interfaces:")]
@@ -26,12 +25,13 @@ public class UIManager : MonoBehaviour
         background.transform.localScale = new Vector3(width, heing, 0);
     }
 
-    private void FixedUpdate()
-    {
-        // gameUI.GetComponentInChildren<Text>().text = $"Score: {gameManager.score}";
-    }
+    //private void FixedUpdate()
+    //{
+    //    gameUI.GetComponentInChildren<Text>().text = $"Score: {gameManager.score}";
+    //}
 
-    private void CloseAllPanels()
+    // Main
+    public void CloseAllPanels()
     {
         for (int i = 0; i < allPanels.Length; i++)
         {
@@ -54,14 +54,12 @@ public class UIManager : MonoBehaviour
 
     public void OpenElementWithPause(string name)
     {
-        CloseAllPanels();
         OpenElement(name);
         Time.timeScale = 0f;
     }
 
     public void OpenElementWithResume(string name)
     {
-        CloseAllPanels();
         OpenElement(name);
         Time.timeScale = 1f;
     }
@@ -76,6 +74,4 @@ public class UIManager : MonoBehaviour
     {
         Application.Quit();
     }
-
-    
 }
