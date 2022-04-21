@@ -6,12 +6,17 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     [Header("Game:")]
+    public GameMode gameMode;
     public float score = 0f;
     public Text scoreText;
+    
     [Header("Butterfly settings:")]
+    public AudioSource audioSource;
+    public AudioClip catchEffect;
     public GameObject[] butterflyPrefabs;
     public float moveButterfliesX;
     public float moveButterfliesZ;
+    
     [Header("Spawn settings:")]
     public Transform[] spawnPoints;
 
@@ -20,6 +25,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        Time.timeScale = 0f;
         Vector3 tLEdge = Camera.main.ViewportToWorldPoint(new Vector3(0f, 1f, Camera.main.nearClipPlane));
         Vector3 rBEdge = Camera.main.ViewportToWorldPoint(new Vector3(1f, 0f, Camera.main.nearClipPlane));
 
@@ -31,16 +37,25 @@ public class GameManager : MonoBehaviour
         moveButterfliesX = tLEdge.x;
         moveButterfliesZ = rBEdge.z;
 
-        
-
-        //if (Data.butterfliesCaught.Count < butterflyPrefabs.Length)
-        //{
-        //    for (int i = Data.butterfliesCaught.Count; i < butterflyPrefabs.Length; i++)
-        //    {
-        //        Data.butterfliesCaught.Add(new Data.Butterflies());
-        //        Data.butterfliesCaught[i].AddButterfly(butterflyPrefabs[i].name, 0);
-        //    }
-        //}
+        bool check = false;
+        for (int i = 0; i < butterflyPrefabs.Length; i++)
+        {
+            check = false;
+            foreach (var item in Data.butterfliesCaught)
+            {
+                if (butterflyPrefabs[i].name == item.name)
+                {
+                    check = true;
+                    Debug.Log("true");
+                }
+            }
+            if (check == false)
+            {
+                Data.butterfliesCaught.Add(new Data.Butterflies());
+                Data.butterfliesCaught[Data.butterfliesCaught.Count - 1].AddButterfly(butterflyPrefabs[i].name, 0);
+                Debug.Log("false");
+            }
+        }
     }
 
     void Update()
@@ -88,9 +103,9 @@ public class GameManager : MonoBehaviour
         SpawnButterfly(Random.Range(1, max), butterflyPrefabs[Random.Range(0, butterflyPrefabs.Length)]);
     }
 
-    public void AddToScore(int num)
+    public void CheckButterfly()
     {
-        score += num;
-        scoreText.text = $"Score: {score}";
+        audioSource.PlayOneShot(catchEffect);
+        gameMode.Catching();
     }
 }

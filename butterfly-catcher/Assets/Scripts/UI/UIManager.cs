@@ -15,8 +15,13 @@ public class UIManager : MonoBehaviour
 
     [Header("Background:")]
     public GameObject background;
+
     [Header("Interfaces:")]
     public UIElements[] allPanels;
+
+    [Header("Sound:")]
+    public AudioSource audioSource;
+    public AudioClip click;
 
     private void Start()
     {
@@ -24,11 +29,6 @@ public class UIManager : MonoBehaviour
         var width = heing * Screen.width / Screen.height;
         background.transform.localScale = new Vector3(width, heing, 0);
     }
-
-    //private void FixedUpdate()
-    //{
-    //    gameUI.GetComponentInChildren<Text>().text = $"Score: {gameManager.score}";
-    //}
 
     // Main
     public void CloseAllPanels()
@@ -41,6 +41,7 @@ public class UIManager : MonoBehaviour
 
     public void OpenElement(string name)
     {
+        PlayClickSound();
         for (int i = 0; i < allPanels.Length; i++)
         {
             if (allPanels[i].name == name)
@@ -70,8 +71,19 @@ public class UIManager : MonoBehaviour
         SceneManager.LoadScene(sceneName);
     }
 
+    public void RestartScene()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        Time.timeScale = 1f;
+    }
+
     public void QuitGame()
     {
         Application.Quit();
+    }
+
+    public void PlayClickSound()
+    {
+        audioSource.PlayOneShot(click);
     }
 }

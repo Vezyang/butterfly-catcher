@@ -17,7 +17,6 @@ public class StatisticsScript : MonoBehaviour
             {
                 if (allButterflies[i].name == item.name)
                 {
-                    allButterflies[i].SetActive(true);
                     allButterflies[i].transform.GetChild(1).GetComponent<Text>().text = $"x{item.caught}";
                 }
             }

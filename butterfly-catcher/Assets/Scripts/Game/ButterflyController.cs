@@ -1,11 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class ButterflyController : MonoBehaviour
 {
     private GameManager gameManager;
-
     [Header("Butterfly settings:")]
     [Range(1, 10)] public float moveSpeed;
     [Range(1, 10)] public float rotationalSpeed;
@@ -35,27 +35,13 @@ public class ButterflyController : MonoBehaviour
     public void CatchButterfly()
     {
         Debug.Log($"Caught: \"{gameObject.name}\"");
-        gameManager.AddToScore(1);
-        //for (int i = 0; i < Data.butterfliesCaught.Count; i++)
-        //{
-        //    if (Data.butterfliesCaught[i].name == gameObject.name)
-        //    {
-        //        Data.butterfliesCaught[i].caught++;
-        //    }
-        //}
-        bool check = false;
-        foreach (var item in Data.butterfliesCaught)
+        for (int i = 0; i < Data.butterfliesCaught.Count; i++)
         {
-            if (item.name == gameObject.name)
+            if (Data.butterfliesCaught[i].name == gameObject.name)
             {
-                item.caught++;
-                check = true;
+                Data.butterfliesCaught[i].caught++;
+                gameManager.CheckButterfly();
             }
-        }
-        if (check == false || Data.butterfliesCaught.Count == 0)
-        {
-            Data.butterfliesCaught.Add(new Data.Butterflies());
-            Data.butterfliesCaught[Data.butterfliesCaught.Count - 1].AddButterfly(gameObject.name, 1);
         }
         Destroy(gameObject);
     }
